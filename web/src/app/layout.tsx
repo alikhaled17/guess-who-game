@@ -1,15 +1,13 @@
 import type { Metadata, Viewport } from "next";
-import { Cairo } from "next/font/google";
 import "./globals.css";
 import { ServiceWorkerRegister } from "@/components/ServiceWorkerRegister";
 import { LanguageProvider } from "@/lib/i18n/LanguageProvider";
 
-const cairo = Cairo({
-  subsets: ["arabic", "latin"],
-  weight: ["400", "500", "700", "800"],
-  variable: "--font-sans",
-  display: "swap",
-});
+// Cairo itself is wired up via plain @font-face rules in globals.css (see
+// that file's header comment for why: next/font/google fetches from
+// Google's servers at BUILD time, which Cloudflare Pages' build sandbox
+// blocks) — nothing to import here, --font-sans in :root already points
+// at it.
 
 export const metadata: Metadata = {
   title: "خمّن شخصيتي — Guess Who",
@@ -41,7 +39,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     // (persisted client-side; there's no cookie/SSR-aware locale here, so
     // a returning English user may see a brief Arabic/RTL flash before it
     // switches, which is an accepted tradeoff for a no-account app).
-    <html lang="ar" dir="rtl" className={cairo.variable}>
+    <html lang="ar" dir="rtl">
       <body className="min-h-dvh antialiased">
         <LanguageProvider>
           <ServiceWorkerRegister />
