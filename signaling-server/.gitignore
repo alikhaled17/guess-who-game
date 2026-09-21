@@ -1,0 +1,6 @@
+node_modules/
+npm-debug.log*
+.env*.local
+
+# local wrangler dev state (miniflare cache, simulated Durable Object storage)
+.wrangler/

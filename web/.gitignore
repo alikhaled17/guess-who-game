@@ -1,0 +1,33 @@
+# dependencies
+/node_modules
+
+# next.js build output
+/.next/
+/out/
+
+# production
+/build
+
+# PWA files generated at build time by @ducanh2912/next-pwa — never hand-edit these
+/public/sw.js
+/public/sw.js.map
+/public/workbox-*.js
+/public/workbox-*.js.map
+/public/worker-*.js
+/public/fallback-*.js
+
+# misc
+.DS_Store
+*.pem
+npm-debug.log*
+.env*.local
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+# testing
+/coverage
+
+# local wrangler dev state (miniflare cache, simulated bindings)
+/.wrangler

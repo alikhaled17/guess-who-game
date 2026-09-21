@@ -1,0 +1,13 @@
+# Cloudflare Pages cache rules (replaces next.config.js's headers(), which
+# isn't supported under output:"export" — see next.config.js).
+/manifest.json
+  Cache-Control: public, max-age=3600
+
+/_next/static/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Never cache the service worker itself — it must always be re-fetched so
+# updates roll out promptly (workbox's own versioned assets underneath it
+# are still safe to cache immutably).
+/sw.js
+  Cache-Control: no-cache

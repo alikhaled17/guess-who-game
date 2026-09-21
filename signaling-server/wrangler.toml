@@ -1,0 +1,16 @@
+name = "guess-who-signaling"
+main = "src/worker.ts"
+compatibility_date = "2026-09-21"
+compatibility_flags = ["nodejs_compat"]
+
+# One Durable Object instance per game room (looked up deterministically by
+# gameId via idFromName — see src/worker.ts). Free-tier eligible ONLY with
+# the SQLite storage backend, hence new_sqlite_classes below rather than
+# the older new_classes.
+[[durable_objects.bindings]]
+name = "ROOMS"
+class_name = "SignalingRoom"
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["SignalingRoom"]

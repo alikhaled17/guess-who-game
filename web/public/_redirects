@@ -1,0 +1,9 @@
+# Cloudflare Pages routing for the two "dynamic" routes that static export
+# can't pre-render one file per arbitrary game id for (see
+# src/app/game/[gameId]/page.tsx and join/[gameId]/page.tsx). Each was built
+# as a single placeholder file; this proxies every real id under that path
+# to the placeholder with a 200 (the address bar keeps showing the real
+# id — this is Cloudflare's documented SPA-fallback pattern, not a
+# redirect). The actual id is then read client-side from the real URL.
+/game/*   /game/_   200
+/join/*   /join/_   200

@@ -1,0 +1,116 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /*
+   * Playful, vibrant "Guess Who" palette — a warm-orange-to-indigo
+   * gradient backdrop with frosted ice-blue glass cards floating on top,
+   * thick navy borders, and gold/teal accents. Two text contexts exist by
+   * design, not accident:
+   *   - Directly on the gradient (headings, page copy): WHITE — see the
+   *     `body` rule below. The gradient spans orange -> sky-blue ->
+   *     indigo, and no single dark color reads well across all three, so
+   *     white + a soft shadow is the one choice that works everywhere.
+   *   - Inside a glass card/surface (buttons, inputs, badges, grid
+   *     labels): NAVY — see the `.bg-surface, .bg-surface2 { color: ... }`
+   *     rule below, which makes this automatic via inheritance for any
+   *     element that doesn't set its own text color.
+   * `--color-text-muted` follows the navy (card) convention, matching how
+   * `--color-text-primary` already worked before this palette — any
+   * "muted" text that sits directly on the gradient instead uses the
+   * `text-white/80`-style utility inline (see CLAUDE.md if this file grows
+   * enough to need it written down there too).
+   */
+  --color-bg: #5bb1eb;
+  --gradient-bg: linear-gradient(135deg, #ff8343 0%, #5bb1eb 50%, #8063f2 100%);
+
+  --color-primary: #f15a24;
+  --color-primary-dark: #d14717;
+  --color-primary-ink: #1e1e38; /* white-on-orange fails contrast (~2:1); navy-on-orange is ~3.4:1 (AA for large/bold text) */
+  --color-secondary: #ffb800;
+  --color-navy: #1e1e38;
+  --color-accent: #58d5e1;
+  --color-danger: #ff5c72;
+  --color-success: #2ecc71;
+
+  --color-text-primary: #1e1e38; /* navy — for text inside cards */
+  --color-text-muted: #5b5b7a; /* muted navy — for text inside cards */
+  --color-on-gradient: #ffffff; /* for text directly on the gradient background */
+
+  /* Ice-blue glassmorphism card surfaces. Raw "R G B" channels (not hex)
+     so Tailwind's alpha modifier works, e.g. bg-surface/60. */
+  --color-surface: 230 243 255; /* #E6F3FF */
+  --color-surface-2: 223 247 247; /* soft teal-tinted ice, for secondary panels */
+
+  --font-sans: "Cairo", "Tajawal", system-ui, sans-serif;
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: var(--font-sans);
+  min-height: 100dvh;
+  overscroll-behavior-y: none;
+}
+
+body {
+  background: var(--gradient-bg);
+  background-attachment: fixed;
+  color: var(--color-on-gradient);
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-top: env(safe-area-inset-top);
+}
+
+/* Headings directly on the gradient get a soft shadow so they stay
+   legible over every part of the orange -> blue -> indigo sweep. */
+h1,
+h2 {
+  text-shadow: 0 2px 10px rgb(30 30 56 / 0.25);
+}
+
+/* The "auto-navy-inside-cards" rule: any glass surface makes its OWN text
+   (and any child that doesn't set its own color) navy instead of
+   inheriting the page's white-on-gradient default. Elements with their
+   own explicit text-color utility (text-textMuted, text-white/80, etc.)
+   are unaffected — an element's own declared color always wins over an
+   inherited one.
+   NOTE: deliberately NOT also adding a blanket border/shadow rule here.
+   Tailwind utilities and a plain CSS class selector have equal
+   specificity, so a global `.bg-surface { border: ... }` rule would win
+   by source order over per-element conditional borders that already vary
+   by state (selected/unselected grid cells, the difficulty picker's
+   selected pill) — it would silently overwrite exactly the borders that
+   need to change dynamically. The thick navy border + shadow "frosted
+   card" look is instead applied per component via the `.glass-card`
+   utility below, added explicitly where a uniform border is correct. */
+.bg-surface,
+.bg-surface2 {
+  color: var(--color-text-primary);
+  text-shadow: none;
+}
+
+.glass-card {
+  border: 3px solid var(--color-navy);
+  box-shadow: 0 8px 24px rgb(30 30 56 / 0.18);
+}
+
+button {
+  font-family: inherit;
+  touch-action: manipulation;
+}
+
+::selection {
+  background: var(--color-primary);
+  color: white;
+}
+
+.safe-x {
+  padding-left: max(1rem, env(safe-area-inset-left));
+  padding-right: max(1rem, env(safe-area-inset-right));
+}
