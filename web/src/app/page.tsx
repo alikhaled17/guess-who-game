@@ -1,12 +1,14 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/Button";
 import { NameInput } from "@/components/NameInput";
 import { LanguageToggle } from "@/components/LanguageToggle";
 import { SuggestedQuestions } from "@/components/SuggestedQuestions";
 import { GameRules } from "@/components/GameRules";
+import { InstallGuide } from "@/components/InstallGuide";
 import { generateGameId } from "@/lib/random";
 import { randomDefaultName, useLocalPlayerName } from "@/hooks/useLocalPlayerName";
 import { useTranslation } from "@/lib/i18n/LanguageProvider";
@@ -55,16 +57,23 @@ export default function HomePage() {
   }
 
   return (
-    <main className="safe-x flex min-h-dvh flex-col items-center justify-center gap-10 px-4 py-10 text-center">
+    <main className="safe-x flex min-h-dvh flex-col items-center justify-center gap-5 px-4 py-10 text-center">
       <div className="fixed right-4 top-4 z-30" style={{ top: "max(1rem, env(safe-area-inset-top))" }}>
         <LanguageToggle />
       </div>
+
 
       <div className="flex flex-col items-center gap-3">
         <div className="text-6xl">🎮</div>
         <h1 className="text-3xl font-extrabold">{t("home.title")}</h1>
         <p className="max-w-xs text-white/85">{t("home.subtitle")}</p>
       </div>
+      <Link
+        href="/support"
+        className="rounded-full border-2 border-navy/40 bg-surface2 px-5 py-1.5 text-xs font-bold text-textMuted"
+      >
+        {t("support.linkLabel")}
+      </Link>
 
       <div className="w-full max-w-sm space-y-4">
         <NameInput value={name} onChange={setName} />
@@ -93,6 +102,7 @@ export default function HomePage() {
         )}
 
         <GameRules />
+        <InstallGuide />
         <SuggestedQuestions />
       </div>
     </main>

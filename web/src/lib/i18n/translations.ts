@@ -167,6 +167,27 @@ export const TRANSLATIONS = {
       en: 'When you\'re sure, tap "Guess the Character Now" and pick one. A correct guess wins instantly — a wrong one loses instantly!',
     },
   },
+  support: {
+    linkLabel: { ar: "❤️ ادعمنا بمتابعتنا", en: "❤️ Support us — follow us" },
+    title: { ar: "ادعمنا بمتابعتنا", en: "Support us — follow us" },
+    subtitle: {
+      ar: "لو عجبتك اللعبة، تابعنا على السوشيال ميديا — بيفرق معانا كتير 💛",
+      en: "If you enjoyed the game, follow us on social media — it means a lot 💛",
+    },
+    followUs: { ar: "تابعنا", en: "Follow us" },
+    aboutDeveloper: { ar: "عن المبرمج", en: "About the developer" },
+    comingSoon: { ar: "قريبًا", en: "Coming soon" },
+    back: { ar: "🏠 الرئيسية", en: "🏠 Home" },
+  },
+  installGuide: {
+    toggle: { ar: "📲 حمّل التطبيق على هاتفك", en: "📲 Install the app on your phone" },
+    title: { ar: "كيف تثبت اللعبة على هاتفك؟", en: "How to install the game on your phone" },
+    imageAlt: {
+      ar: "خطوات تثبيت التطبيق على أندرويد وآيفون",
+      en: "Steps to install the app on Android and iPhone",
+    },
+    close: { ar: "إغلاق", en: "Close" },
+  },
   connectionStatus: {
     idle: { ar: "جاري التحضير...", en: "Getting ready..." },
     connecting: { ar: "🔄 جاري الاتصال...", en: "🔄 Connecting..." },
