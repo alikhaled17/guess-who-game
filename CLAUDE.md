@@ -250,7 +250,7 @@ shows SOME indicator during this window instead of looking fully live.
   specific id, so extending the roster or the question bank is a
   data-only change.
 - Character portraits are real illustrated portraits, one static asset
-  path per character under `/public/characters/*.webp` (~9KB each).
+  path per character under `/public/characters/*.webp` (~5KB each).
   `Character.image` is just a `string` path — swapping or adding artwork
   is a data-only change, nothing else in the app needs to know.
 - `Character` has NO gameplay attributes (no `hasGlasses`, `hairColor`,
@@ -311,9 +311,12 @@ Consequences worth knowing if you touch this:
   step after `RESTART_GAME`, which the lobby-only `canSetDifficulty` rule
   currently doesn't allow. Flag this if a rematch is expected to reshuffle
   too — it's a small, deliberate scope call, not an oversight.
-- The full roster has 88 characters (`data/characters.ts`,
+- The full roster has 48 characters (`data/characters.ts`,
   `/public/characters/*.webp`), so all three tiers — including "hard" (30)
-  — are genuine random subsets, not "the whole roster."
+  — are genuine random subsets, not "the whole roster." (`easy`/`medium`
+  are comfortably smaller than the roster too; `characterCountForDifficulty`
+  in `data/difficulty.ts` clamps against `CHARACTERS.length` regardless of
+  roster size, so this stays true even if the roster shrinks further.)
 
 ## Coding conventions
 

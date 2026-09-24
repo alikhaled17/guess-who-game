@@ -63,7 +63,7 @@ export function CharacterGrid({
           >
             {/*
               eslint-disable-next-line @next/next/no-img-element --
-              small local static assets (~9KB each, ~300KB for all 30 —
+              small local static assets (~5KB each, ~150KB for all 30 —
               see data/characters.ts); eager-loaded on purpose so a player
               scrolling their own selection/elimination board never sees
               placeholder pop-in on a screen whose whole point is visually

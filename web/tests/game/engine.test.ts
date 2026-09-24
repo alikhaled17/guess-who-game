@@ -76,7 +76,7 @@ function selectBoth(pair: { host: GameState; guest: GameState }, hostCharId: str
   return { host, guest };
 }
 
-function fullySetUpGame(hostCharId = "aaron", guestCharId = "abdelrahman") {
+function fullySetUpGame(hostCharId = "ahmed", guestCharId = "abdelrahman") {
   let pair = freshPair();
   pair = connectBoth(pair);
   pair = readyBoth(pair);
@@ -211,9 +211,9 @@ describe("Difficulty selection", () => {
 describe("Character selection", () => {
   it("does not reveal the characterId to the peer — only a commitment hash", () => {
     let pair = readyBoth(connectBoth(freshPair()));
-    const r = applyLocalAction(pair.host, { type: "SELECT_CHARACTER", characterId: "aaron", salt: "s" });
+    const r = applyLocalAction(pair.host, { type: "SELECT_CHARACTER", characterId: "ahmed", salt: "s" });
     expect(r.outgoing[0]).toEqual({ type: "SELECT_CHARACTER", commitment: expect.any(String) });
-    expect(JSON.stringify(r.outgoing[0])).not.toContain("aaron");
+    expect(JSON.stringify(r.outgoing[0])).not.toContain("ahmed");
   });
 
   it("transitions to playing once both players have selected", () => {
@@ -239,7 +239,7 @@ describe("Character selection", () => {
 
   it("rejects selecting twice", () => {
     let pair = readyBoth(connectBoth(freshPair()));
-    let r = applyLocalAction(pair.host, { type: "SELECT_CHARACTER", characterId: "aaron", salt: "s" });
+    let r = applyLocalAction(pair.host, { type: "SELECT_CHARACTER", characterId: "ahmed", salt: "s" });
     const host = r.state;
     r = applyLocalAction(host, { type: "SELECT_CHARACTER", characterId: "abdelrahman", salt: "s2" });
     expect(r.error).toBeTruthy();
@@ -272,7 +272,7 @@ describe("Turns (questions/answers happen out loud, not through the app)", () =>
   });
 
   it("rejects ending a turn while a guess is being resolved", () => {
-    const pair = fullySetUpGame("aaron", "abdelrahman");
+    const pair = fullySetUpGame("ahmed", "abdelrahman");
     const guessR = applyLocalAction(pair.host, { type: "GUESS_CHARACTER", characterId: "abdelrahman" });
     const r = applyLocalAction(guessR.state, { type: "END_TURN" });
     expect(r.error).toBeTruthy();
@@ -298,7 +298,7 @@ describe("Local elimination bookkeeping", () => {
 
 describe("Guessing and winning", () => {
   it("a correct guess makes the guesser win, and reveals the defender's character", () => {
-    const pair = fullySetUpGame("aaron", "abdelrahman"); // guest secretly picked "abdelrahman"
+    const pair = fullySetUpGame("ahmed", "abdelrahman"); // guest secretly picked "abdelrahman"
     const guessR = applyLocalAction(pair.host, { type: "GUESS_CHARACTER", characterId: "abdelrahman" });
     expect(guessR.error).toBeNull();
 
@@ -315,7 +315,7 @@ describe("Guessing and winning", () => {
   });
 
   it("a wrong guess makes the guesser lose immediately", () => {
-    const pair = fullySetUpGame("aaron", "abdelrahman");
+    const pair = fullySetUpGame("ahmed", "abdelrahman");
     const guessR = applyLocalAction(pair.host, { type: "GUESS_CHARACTER", characterId: "adel" }); // wrong
     const guestR = applyRemoteMessage(pair.guest, guessR.outgoing[0], "host");
     expect(guestR.state.winner).toBe("guest"); // defender wins
@@ -327,12 +327,12 @@ describe("Guessing and winning", () => {
 
   it("rejects a guess from the player who does not hold the current turn", () => {
     const pair = fullySetUpGame();
-    const r = applyLocalAction(pair.guest, { type: "GUESS_CHARACTER", characterId: "aaron" });
+    const r = applyLocalAction(pair.guest, { type: "GUESS_CHARACTER", characterId: "ahmed" });
     expect(r.error).toMatch(/turn/i);
   });
 
   it("rejects GUESS_RESULT whose reveal does not match the earlier commitment", () => {
-    const pair = fullySetUpGame("aaron", "abdelrahman");
+    const pair = fullySetUpGame("ahmed", "abdelrahman");
     const guessR = applyLocalAction(pair.host, { type: "GUESS_CHARACTER", characterId: "abdelrahman" });
     // Tamper with the reveal: claim a different character than what was committed to.
     const tampered = { type: "GUESS_RESULT" as const, correct: true, characterId: "adel", salt: "guest-salt" };
@@ -386,7 +386,7 @@ describe("Restarting", () => {
   });
 
   it("resets both sides back to character selection", () => {
-    const pair = fullySetUpGame("aaron", "abdelrahman");
+    const pair = fullySetUpGame("ahmed", "abdelrahman");
     const guessR = applyLocalAction(pair.host, { type: "GUESS_CHARACTER", characterId: "abdelrahman" });
     const guestR = applyRemoteMessage(pair.guest, guessR.outgoing[0], "host");
     const hostFinished = applyRemoteMessage(guessR.state, guestR.outgoing[0], "guest").state;
@@ -401,7 +401,7 @@ describe("Restarting", () => {
   });
 
   it("treats a redundant RESTART_GAME (both players clicked restart) as a harmless no-op", () => {
-    const pair = fullySetUpGame("aaron", "abdelrahman");
+    const pair = fullySetUpGame("ahmed", "abdelrahman");
     const guessR = applyLocalAction(pair.host, { type: "GUESS_CHARACTER", characterId: "abdelrahman" });
     const guestR = applyRemoteMessage(pair.guest, guessR.outgoing[0], "host");
     const hostFinished = applyRemoteMessage(guessR.state, guestR.outgoing[0], "guest").state;
